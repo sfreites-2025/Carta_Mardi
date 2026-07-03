@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Para ti, mi amor</title>
+    <style>
+        /* ===== RESET Y FUENTES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(145deg, #fce9f0 0%, #f5d6e2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            margin: 0;
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: rgba(255, 248, 250, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 40px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 24px 70px rgba(160, 70, 110, 0.25),
+                        0 0 0 1px rgba(255, 215, 225, 0.4);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== DECORACIÓN ===== */
+        .container::before {
+            content: "❤️";
+            position: absolute;
+            font-size: 160px;
+            opacity: 0.04;
+            bottom: -40px;
+            right: -40px;
+            transform: rotate(20deg);
+            pointer-events: none;
+        }
+
+        .container::after {
+            content: "✨";
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.04;
+            top: -20px;
+            left: -30px;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        /* ===== INDICADOR ===== */
+        .page-indicator {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            color: #b07a8c;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .page-indicator span {
+            font-weight: 700;
+            color: #a0486b;
+            font-size: 0.95rem;
+        }
+
+        /* ===== SLIDER ===== */
+        .pages-wrapper {
+            overflow: hidden;
+            position: relative;
+            min-height: 520px;
+            border-radius: 28px;
+        }
+
+        .pages-slider {
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+        }
+
+        /* ===== PÁGINAS ===== */
+        .page {
+            flex: 0 0 100%;
+            padding: 12px 10px 24px;
+            opacity: 0.5;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform: scale(0.96);
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===== ESTILOS DE TEXTO (más grandes para móvil) ===== */
+        .page h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #3d1f2b;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .page h2 i {
+            font-style: italic;
+            font-weight: 400;
+            color: #b05a78;
+        }
+
+        .page .poem {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            line-height: 2;
+            color: #3d2832;
+            font-weight: 400;
+            background: rgba(255, 240, 245, 0.5);
+            padding: 22px 24px;
+            border-radius: 28px;
+            border-left: 5px solid #d48a9e;
+            margin-bottom: 18px;
+            font-style: italic;
+            box-shadow: inset 0 1px 6px rgba(255, 255, 255, 0.7);
+        }
+
+        .page .poem strong {
+            font-style: normal;
+            font-weight: 700;
+            color: #942f55;
+        }
+
+        .page .poem .highlight {
+            font-style: normal;
+            font-weight: 600;
+            color: #7a2e4a;
+            background: rgba(212, 138, 158, 0.15);
+            padding: 0 6px;
+            border-radius: 6px;
+        }
+
+        .page p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: #4e3642;
+            font-weight: 400;
+            padding: 0 4px;
+            margin-bottom: 8px;
+        }
+
+        .page .signature {
+            margin-top: 22px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #a0486b;
+            text-align: right;
+            font-style: italic;
+            opacity: 0.85;
+            border-top: 1.5px dashed #ecc2cf;
+            padding-top: 16px;
+        }
+
+        .page .signature small {
+            font-size: 0.8rem;
+            font-family: 'Quicksand', sans-serif;
+            font-style: normal;
+            opacity: 0.6;
+            display: inline-block;
+            margin-left: 6px;
+        }
+
+        /* ===== PÁGINA PROPUESTA ===== */
+        .page.proposal {
+            text-align: center;
+        }
+
+        .page.proposal h2 {
+            font-size: 2.4rem;
+            color: #7a2e4a;
+        }
+
+        .page.proposal .big-question {
+            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #a03e62;
+            margin: 24px 0 18px;
+            background: rgba(255, 220, 230, 0.5);
+            padding: 28px 18px;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            border: 1.5px solid #f2cedb;
+            line-height: 1.5;
+        }
+
+        .page.proposal .big-question small {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 14px;
+            color: #7a4a5a;
+            font-style: italic;
+        }
+
+        .page.proposal .sub-text {
+            font-size: 1.05rem;
+            font-weight: 300;
+            margin-top: 16px;
+            color: #5a3a48;
+            line-height: 1.8;
+        }
+
+        /* ===== BOTONES ===== */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 22px;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 235, 240, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1.5px solid #ecc2cf;
+            padding: 16px 20px;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #5a3444;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(160, 80, 110, 0.1);
+            flex: 1;
+            text-align: center;
+            min-height: 58px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #ecc2cf;
+            color: #3d1f2b;
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(180, 80, 120, 0.2);
+            border-color: #d48a9e;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-btn.primary {
+            background: #c87a92;
+            border-color: #b05a78;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(180, 80, 120, 0.3);
+        }
+
+        .nav-btn.primary:hover:not(:disabled) {
+            background: #b05a78;
+            border-color: #942f55;
+            color: white;
+            transform: scale(1.03);
+        }
+
+        .nav-btn.primary:active {
+            background: #a0486b;
+        }
+
+        /* ===== RESPONSIVE PARA MÓVIL ===== */
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 18px 14px 24px;
+                border-radius: 32px;
+            }
+
+            .page h2 {
+                font-size: 1.6rem;
+            }
+
+            .page .poem {
+                font-size: 1rem;
+                padding: 18px 16px;
+                line-height: 1.9;
+                border-left-width: 4px;
+            }
+
+            .page p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+            .page .signature {
+                font-size: 1.05rem;
+                padding-top: 14px;
+                margin-top: 18px;
+            }
+
+            .page.proposal h2 {
+                font-size: 2rem;
+            }
+
+            .page.proposal .big-question {
+                font-size: 1.5rem;
+                padding: 22px 14px;
+                border-radius: 36px;
+            }
+
+            .page.proposal .big-question small {
+                font-size: 0.95rem;
+            }
+
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 14px 12px;
+                min-height: 52px;
+            }
+
+            .pages-wrapper {
+                min-height: 480px;
+            }
+
+            .page-indicator {
+                font-size: 0.7rem;
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 10px 20px;
+                border-radius: 28px;
+            }
+
+            .page h2 {
+                font-size: 1.35rem;
+            }
+
+            .page .poem {
+                font-size: 0.9rem;
+                padding: 14px 12px;
+                line-height: 1.8;
+            }
+
+            .page p {
+                font-size: 0.85rem;
+                line-height: 1.7;
+            }
+
+            .page .signature {
+                font-size: 0.95rem;
+            }
+
+            .page.proposal h2 {
+                font-size: 1.6rem;
+            }
+
+            .page.proposal .big-question {
+                font-size: 1.2rem;
+                padding: 18px 12px;
+            }
+
+            .page.proposal .big-question small {
+                font-size: 0.85rem;
+            }
+
+            .nav-btn {
+                font-size: 0.75rem;
+                padding: 12px 8px;
+                min-height: 46px;
+            }
+
+            .pages-wrapper {
+                min-height: 440px;
+            }
+        }
+
+        /* ===== ANIMACIONES ===== */
+        .fade-in {
+            animation: fadeIn 0.9s ease both;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Detalles decorativos en botones */
+        .nav-btn::before {
+            content: "✦ ";
+            opacity: 0.5;
+        }
+        .nav-btn.primary::before {
+            content: "❤️ ";
+            opacity: 0.9;
+        }
+        .nav-btn:disabled::before {
+            content: "";
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Indicador -->
+        <div class="page-indicator">
+            Página <span id="currentPageNum">1</span> de <span id="totalPagesNum">10</span>
+        </div>
+
+        <!-- Wrapper -->
+        <div class="pages-wrapper">
+            <div class="pages-slider" id="pagesSlider">
+
+                <!-- ===================== PÁGINA 1 — INICIO ===================== -->
+                <div class="page active" data-index="0">
+                    <h2>✦ Bienvenida, <i>mi amor</i></h2>
+                    <div class="poem">
+                        "Hoy no vengo a decirte palabras al viento,<br>
+                        vengo a abrir mi corazón en <strong>10 pasos</strong>.<br>
+                        Como un libro que solo tú puedes leer,<br>
+                        cada página es un susurro que nace de mi ser.<br>
+                        <br>
+                        No busco llenar tu cabeza de promesas vacías,<br>
+                        sino <span class="highlight">tocar tu alma</span> con la verdad de lo que siento.<br>
+                        Porque cuando el amor es real,<br>
+                        las palabras se vuelven <strong>poesía</strong>."
+                    </div>
+                    <p>
+                        Esto no es una simple carta, es un mapa de lo que siento,<br>
+                        una constelación de versos que he escrito pensando en ti.<br>
+                        Deja que te lleve de la mano por cada rincón de mi alma,<br>
+                        porque en cada página hay un pedacito de mí que te pertenece.
+                    </p>
+                    <div class="signature">
+                        — Para la musa que inspira mis letras <small>✧</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 2 — QUIÉN SOY ===================== -->
+                <div class="page" data-index="1">
+                    <h2>✦ Quién soy <i>yo</i></h2>
+                    <div class="poem">
+                        "Soy ese niño que aprendió a ser <strong>responsable</strong> antes de tiempo,<br>
+                        el que guarda sus promesas como tesoros en el alma.<br>
+                        <span class="highlight">Sincero hasta los huesos</span>, sin filtros ni máscaras,<br>
+                        y cada emoción la vivo como si fuera la última.<br>
+                        <br>
+                        No soy un hombre perfecto,<br>
+                        pero soy un hombre <strong>verdadero</strong>.<br>
+                        Y cuando siento, siento con todo mi ser,<br>
+                        sin medias tintas ni mitades."
+                    </div>
+                    <p>
+                        He aprendido que la vida se mide en momentos,<br>
+                        y cada momento a tu lado vale más que una eternidad.<br>
+                        Hoy, frente a ti, no hay ficción ni personaje,<br>
+                        solo un hombre que decidió <strong>amarte en mayúsculas</strong>.
+                    </p>
+                    <div class="signature">
+                        — Así soy, sin dobleces <small>✦</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 3 — MI CORAZÓN HERIDO ===================== -->
+                <div class="page" data-index="2">
+                    <h2>✦ Mi corazón <i>herido</i></h2>
+                    <div class="poem">
+                        "Hubo un tiempo en que me hicieron sentir<br>
+                        la peor basura del mundo,<br>
+                        como si mi alma no valiera nada.<br>
+                        Engaños que dolían como puñales en la espalda,<br>
+                        mentiras que tejían un cielo <strong>falso</strong> sobre mi cabeza.<br>
+                        <br>
+                        Perdí tiempo en amores que nunca fueron,<br>
+                        en abrazos que no calentaban,<br>
+                        en promesas que se llevó el viento.<br>
+                        Pero <span class="highlight">el dolor no me define</span>,<br>
+                        solo me ha enseñado a valorar lo verdadero."
+                    </div>
+                    <p>
+                        Hoy miro atrás y veo cicatrices que ya no duelen,<br>
+                        porque el pasado es ceniza y el futuro es <strong>tú</strong>.<br>
+                        Cada herida me trajo hasta aquí,<br>
+                        hasta el momento de poder amarte sin miedo.
+                    </p>
+                    <div class="signature">
+                        — Cicatrices que brillan <small>✧</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 4 — A PESAR DE TODO ===================== -->
+                <div class="page" data-index="3">
+                    <h2>✦ A pesar de <i>todo</i></h2>
+                    <div class="poem">
+                        "Aunque el ayer haya sido tormenta,<br>
+                        hoy soy un hombre que elige <strong>amarte</strong> sin condiciones.<br>
+                        No me importan las sombras de tu pasado,<br>
+                        ni las mías, ni lo que el mundo pueda decir.<br>
+                        <br>
+                        Tu hija es parte de ti, y yo la acepto<br>
+                        como acepto el sol después de la lluvia.<br>
+                        Porque el amor verdadero no elige, <span class="highlight">abraza</span>.<br>
+                        Y yo abrazo todo lo que eres, todo lo que fuiste,<br>
+                        y todo lo que serás."
+                    </div>
+                    <p>
+                        Nada ni nadie cambiará mi mirada hacia ti.<br>
+                        Este sentimiento no es un capricho pasajero,<br>
+                        es un río que crece cada día más y más,<br>
+                        <strong>sin orillas, sin final</strong>.
+                    </p>
+                    <div class="signature">
+                        — Sin condiciones, sin límites <small>❤️</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 5 — SOLO PIDO TU ESENCIA ===================== -->
+                <div class="page" data-index="4">
+                    <h2>✦ Solo pido <i>tu esencia</i></h2>
+                    <div class="poem">
+                        "No te pido lujos ni castillos de oro,<br>
+                        ni joyas que brillen ni vestidos de gala.<br>
+                        Solo quiero que esto sea <strong>sincero, mutuo, leal</strong>.<br>
+                        Que tu corazón baile al ritmo del mío,<br>
+                        que tus ojos me miren como yo te miro.<br>
+                        <br>
+                        De lo demás, yo me encargo.<br>
+                        Construiré un mundo para ti con mis manos,<br>
+                        porque <span class="highlight">tú mereces todo</span> y yo quiero dártelo.<br>
+                        Doy gracias a Dios por haberme cruzado<br>
+                        con una chica tan <strong>increíble</strong> como tú."
+                    </div>
+                    <p>
+                        No necesito que el mundo nos aplauda,<br>
+                        solo necesito que tú y yo sepamos que esto es real.<br>
+                        Que cada latido tenga tu nombre,<br>
+                        que cada mañana sea un nuevo motivo para sonreír.
+                    </p>
+                    <div class="signature">
+                        — Agradecido por ti <small>🙏</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 6 — MÁS QUE PALABRAS ===================== -->
+                <div class="page" data-index="5">
+                    <h2>✦ Más que <i>palabras</i></h2>
+                    <div class="poem">
+                        "No te prometo un camino perfecto,<br>
+                        porque la perfección no existe en este mundo.<br>
+                        Pero sí te prometo un camino <strong>hermoso</strong>,<br>
+                        lleno de luz, de risas, de abrazos sinceros.<br>
+                        <br>
+                        Habrá días nublados y noches de tormenta,<br>
+                        pero siempre estaré a tu lado, tomando tu mano.<br>
+                        Porque <span class="highlight">quiero envejecer contigo</span>,<br>
+                        ver cómo el tiempo dibuja arrugas en tu rostro,<br>
+                        y seguir amándote como el primer día."
+                    </div>
+                    <p>
+                        Quiero construir contigo una historia real,<br>
+                        con sus altos y bajos, con sus silencios y sus gritos,<br>
+                        pero siempre, <strong>siempre</strong>, de la mano.
+                    </p>
+                    <div class="signature">
+                        — Para siempre, y un día más <small>∞</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 7 — UNA PROMESA ETERNA ===================== -->
+                <div class="page" data-index="6">
+                    <h2>✦ Una promesa <i>eterna</i></h2>
+                    <div class="poem">
+                        "Te prometo que saldremos adelante,<br>
+                        cumpliendo sueños y metas, los tuyos, los míos, los nuestros.<br>
+                        Como <strong>personas</strong> que se apoyan,<br>
+                        como <strong>amigos</strong> que se escuchan,<br>
+                        como <strong>amantes</strong> que se desean,<br>
+                        como <strong>pareja</strong> que se respeta,<br>
+                        como <strong>esposos</strong> que se eligen cada día,<br>
+                        y hasta como <span class="highlight">enemigos</span>, si la vida nos desafía."
+                    </div>
+                    <p>
+                        Porque en el amor todo cabe,<br>
+                        siempre que estemos juntos.<br>
+                        No hay meta que no podamos alcanzar,<br>
+                        ni sueño que no podamos hacer realidad,<br>
+                        si lo hacemos <strong>contigo y conmigo</strong>.
+                    </p>
+                    <div class="signature">
+                        — Mi palabra es mi ley <small>✧</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 8 — EL ALTAR NOS ESPERA ===================== -->
+                <div class="page" data-index="7">
+                    <h2>✦ El altar <i>nos espera</i></h2>
+                    <div class="poem">
+                        "Si hoy me dices que sí,<br>
+                        tendrás que repetírmelo en el altar,<br>
+                        frente a Dios y toda nuestra gente.<br>
+                        Porque <strong>quiero casarme contigo</strong>,<br>
+                        quiero que seas mi esposa, mi compañera de vida.<br>
+                        <br>
+                        Me vuelves loco, me mueves el piso,<br>
+                        haces que el mundo se detenga cuando sonríes.<br>
+                        ¿Y cómo sabes que esto es verdad y no un engaño?<br>
+                        Porque había prometido <span class="highlight">no volver a sentir así</span>,<br>
+                        y entonces <strong>apareciste tú</strong> y lo cambiaste todo."
+                    </div>
+                    <p>
+                        No hay mentira que pueda sostenerse tanto tiempo,<br>
+                        no hay ficción que pueda fingir lo que siento.<br>
+                        Esto es real, tan real como el aire que respiro,<br>
+                        y tú eres la razón por la que vuelvo a creer.
+                    </p>
+                    <div class="signature">
+                        — Tuya es mi alma para siempre <small>❤️</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 9 — ANSÍO CADA MOMENTO ===================== -->
+                <div class="page" data-index="8">
+                    <h2>✦ Ansío <i>cada momento</i></h2>
+                    <div class="poem">
+                        "Ansío despertar a tu lado cada mañana,<br>
+                        compartir cafés, silencios y risas cómplices.<br>
+                        Ansío los días grises y los dorados,<br>
+                        las tormentas que nos unan y las calmas que nos abracen.<br>
+                        <br>
+                        Ansío ver crecer a tu hija y que me vea como un segundo padre,<br>
+                        ansío construir un hogar donde el amor sea el único dueño.<br>
+                        <span class="highlight">Ansío todo contigo</span>,<br>
+                        lo bueno, lo malo, lo bonito y lo difícil.<br>
+                        Porque contigo hasta lo difícil se vuelve hermoso."
+                    </div>
+                    <p>
+                        Y vamos para adelante, sin mirar atrás.<br>
+                        El futuro es nuestro, y yo quiero vivirlo <strong>contigo</strong>,<br>
+                        paso a paso, día a día, hasta que el tiempo se detenga.
+                    </p>
+                    <div class="signature">
+                        — Con ansias de todo <small>✨</small>
+                    </div>
+                </div>
+
+                <!-- ===================== PÁGINA 10 — PROPUESTA ===================== -->
+                <div class="page proposal" data-index="9">
+                    <h2>✧ La gran <i>pregunta</i> ✧</h2>
+                    <div class="big-question">
+                        ¿Quieres ser mi <strong>compañera</strong><br>
+                        y vivir nuestras vidas a todo dar?
+                        <small>
+                            No solo novios… compañeros de alma,<br>
+                            cómplices de sueños, eternos enamorados,<br>
+                            para llegar juntos a <strong>viejitos</strong>.
+                        </small>
+                    </div>
+                    <p class="sub-text">
+                        Esta propuesta va más allá de un simple noviazgo.<br>
+                        Es la promesa de caminar juntos toda la vida,<br>
+                        de cuidarnos, de reírnos, de llorar si hace falta,<br>
+                        pero siempre <strong>juntos</strong>.<br>
+                        <br>
+                        No te pido que seas perfecta,<br>
+                        te pido que seas <strong>tú</strong>.<br>
+                        Y yo prometo ser el hombre que siempre soñaste.
+                    </p>
+                    <div class="signature" style="text-align: center; border-top: none; font-size: 1.4rem;">
+                        ❤️ ¿Aceptas este viaje a mi lado? ❤️
+                        <br>
+                        <small style="font-size: 0.9rem; opacity: 0.7;">— Con todo mi amor, para siempre</small>
+                    </div>
+                </div>
+
+            </div> <!-- /pages-slider -->
+        </div> <!-- /pages-wrapper -->
+
+        <!-- Botones -->
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" disabled>Anterior</button>
+            <button class="nav-btn primary" id="nextBtn">Siguiente</button>
+        </div>
+
+    </div> <!-- /container -->
+
+    <script>
+        (function() {
+            const slider = document.getElementById('pagesSlider');
+            const pages = document.querySelectorAll('.page');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentPageSpan = document.getElementById('currentPageNum');
+            const totalPagesSpan = document.getElementById('totalPagesNum');
+
+            let currentIndex = 0;
+            const totalPages = pages.length;
+            totalPagesSpan.textContent = totalPages;
+
+            function updateSlider(index) {
+                const offset = -index * 100;
+                slider.style.transform = `translateX(${offset}%)`;
+
+                pages.forEach((page, i) => {
+                    page.classList.toggle('active', i === index);
+                });
+
+                currentPageSpan.textContent = index + 1;
+                prevBtn.disabled = (index === 0);
+                nextBtn.disabled = (index === totalPages - 1);
+
+                if (index === totalPages - 1) {
+                    nextBtn.textContent = '❤️ El final ❤️';
+                    nextBtn.disabled = true;
+                } else {
+                    nextBtn.textContent = 'Siguiente';
+                    nextBtn.disabled = false;
+                }
+
+                // Scroll suave al inicio del contenedor
+                document.querySelector('.container').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlider(currentIndex);
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentIndex < totalPages - 1) {
+                    currentIndex++;
+                    updateSlider(currentIndex);
+                }
+            });
+
+            // Teclado
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    if (currentIndex < totalPages - 1) {
+                        currentIndex++;
+                        updateSlider(currentIndex);
+                        e.preventDefault();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateSlider(currentIndex);
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            // Swipe para móvil (toques)
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            const wrapper = document.querySelector('.pages-wrapper');
+
+            wrapper.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            wrapper.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                const threshold = 50;
+
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0 && currentIndex < totalPages - 1) {
+                        currentIndex++;
+                        updateSlider(currentIndex);
+                    } else if (diff < 0 && currentIndex > 0) {
+                        currentIndex--;
+                        updateSlider(currentIndex);
+                    }
+                }
+            }, { passive: true });
+
+            // Inicializar
+            updateSlider(0);
+
+            console.log('💖 Esta página web está hecha con todo el amor del mundo 💖');
+        })();
+    </script>
+
+</body>
+</html>
